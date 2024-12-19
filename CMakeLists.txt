@@ -10,4 +10,11 @@ add_executable(Aufgaben main.c
         3_1_sum_product_difference_quotient.c
         3_2_read_char.c
         3_3_last_number.c
+        4_numerical_representation.c
+        5_e.c
+        6_triangle_of_numbers.c
+        8_pi.c
+        9_multiplication_table.c
+        10_calender_stuff.c
+        11_pythagoras_triplet.c
 )
