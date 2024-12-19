@@ -17,4 +17,6 @@ add_executable(Aufgaben main.c
         9_multiplication_table.c
         10_calender_stuff.c
         11_pythagoras_triplet.c
+        7_calculate_dont_think.c
+        12_prime_numbers.c
 )
