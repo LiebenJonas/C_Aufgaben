@@ -19,4 +19,5 @@ add_executable(Aufgaben main.c
         11_pythagoras_triplet.c
         7_calculate_dont_think.c
         12_prime_numbers.c
+        game_of_live.c
 )

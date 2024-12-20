@@ -4,7 +4,7 @@
 //
 void print_prime_numbers(int bound);
 
-int main() {
+int main_12() {
     print_prime_numbers(1000);
     return 0;
 }
