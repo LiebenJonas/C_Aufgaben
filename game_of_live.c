@@ -1,8 +1,8 @@
 //
 // Created by jonas on 19/12/2024.
 //
-#define DEFAULT_WIDTH 50
-#define DEFAULT_HEIGTH 10
+#define DEFAULT_WIDTH 100
+#define DEFAULT_HEIGTH 40
 #define ALIVE_CHAR 'O'
 #define DEAD_CHAR ' '
 
@@ -12,11 +12,19 @@
 #include <Windows.h>
 
 void game_of_live(int width, int height);
-void initialize_field(int* field, int width, int height);
-void update_field(int* field, int width, int height);
-void print_field(int* arr, int width, int height);
+
+void initialize_field(int *field, int width, int height);
+
+void update_field(int *field, int width, int height);
+
+void update_array(int *arr_to_update, int *data, int length);
+
+void print_field(int *arr, int width, int height);
+
 void clear_console();
+
 void wait(long duration_ms);
+
 int getBool();
 
 int main() {
@@ -29,24 +37,25 @@ void game_of_live(int width, int height) {
     // Seed the random number generator
     srand(time(0));
 
+    // create field
     int field[width * height];
     initialize_field(field, width, height);
 
     while (1) {
-        update_field(field, width, height);
-        clear_console();
         print_field(field, width, height);
-        wait(1000);
+        update_field(field, width, height);
+        wait(500);
+        clear_console();
     }
 }
 
-void initialize_field(int* field, int width, int height) {
+void initialize_field(int *field, int width, int height) {
     for (int row = 0; row < height; row++)
         for (int col = 0; col < width; col++)
             field[row * width + col] = getBool();
 }
 
-void update_field(int* field, int width, int height) {
+void update_field(int *field, int width, int height) {
     /*
      *      Regeln:
      *      1. Jede Zelle mit weniger als zwei Nachbarn stirbt
@@ -60,6 +69,8 @@ void update_field(int* field, int width, int height) {
     int neighbour_count = 0;
     for (int row = 0; row < height; row++) {
         for (int col = 0; col < width; col++) {
+            neighbour_count = 0;
+
             //1. Count neighbours
             //top left
             if (row > 0 && col > 0) neighbour_count += field[(row - 1) * width + (col - 1)];
@@ -81,20 +92,40 @@ void update_field(int* field, int width, int height) {
             if (col < width - 1) neighbour_count += field[row * width + (col + 1)];
 
 
+            next_field[row * width + col] = field[row * width + col];
             //check rules
             if (field[row * width + col]) {
                 // Cell currently alive
-                if (neighbour_count < 2 || neighbour_count > 3) field[row * width + col] = 0;
-            }
-            else {
+                if (neighbour_count < 2 || neighbour_count > 3)
+                    next_field[row * width + col] = 0;
+            } else {
                 // Cell currently dead
-                if (neighbour_count == 3) field[row * width + col] = 1;
+                if (neighbour_count == 3)
+                    next_field[row * width + col] = 1;
             }
         }
     }
+    update_array(field, next_field, width * height);
+    /*
+        printf("\n\nNext:\n");
+        print_field(next_field, width, height);
+
+        printf("\n\nBefore:\n");
+        print_field(field, width, height);
+        update_array(field, next_field, width * height);
+
+        printf("\n\nAfter:\n");
+        print_field(field, width, height);
+        */
 }
 
-void print_field(int* field, int width, int height) {
+void update_array(int *arr_to_update, int *data, int length) {
+    for (int i = 0; i < length; i++) {
+        arr_to_update[i] = data[i];
+    }
+}
+
+void print_field(int *field, int width, int height) {
     //Test: Print filled field
     for (int row = 0; row < height; row++) {
         for (int col = 0; col < width; col++) {
