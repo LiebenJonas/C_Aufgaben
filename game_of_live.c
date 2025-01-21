@@ -27,7 +27,7 @@ void wait(long duration_ms);
 
 int getBool();
 
-int main() {
+int main_deactivated() {
     game_of_live(DEFAULT_WIDTH, DEFAULT_HEIGTH);
     return 0;
 }
