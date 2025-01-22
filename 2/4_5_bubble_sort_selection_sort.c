@@ -6,7 +6,7 @@ void bubble_sort(int* arr, int len);
 void selection_sort(int* arr, int len);
 void swap(int* i1, int* i2);
 
-int main() {
+int main_2_4_5() {
 
     int unsorted[] = {4, 132, 4, 65, 2, 124, 6, 12, 3, 1, 1, 35, 7, 8, 9, 23, 4546, 24, 124, 46, 23, 81};
     bubble_sort(unsorted, sizeof(unsorted) / sizeof(unsorted[0]));
