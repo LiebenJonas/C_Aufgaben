@@ -21,10 +21,9 @@ int eingabe() {
     return ret;
 }
 
-void zerlegung(int eingabe) {
+void zerlegung_old(int eingabe) {
     int leftover = eingabe;
 
-    printf("Primfaktoren: ");
     for (int i = 2; ; i++) {
         if (is_prime_number(leftover)) {
             printf("%d ", leftover);
@@ -34,10 +33,29 @@ void zerlegung(int eingabe) {
         if (leftover % i == 0) {
             printf("%d ", i);
             leftover /= i;
+            if (!is_prime_number(i)) {
+                zerlegung(i);
+            }
             if (leftover <= 1) break;
         }
     }
     printf("\n");
+}
+
+
+void zerlegung(int eingabe) {
+    if (is_prime_number(eingabe)) {
+        printf("%d\n", eingabe);
+        return;
+    }
+
+    for (int n = 2; ; n++) {
+        if (eingabe % n == 0) {
+            zerlegung(n);
+            zerlegung(eingabe / n);
+            break;
+        }
+    }
 }
 
 int is_prime_number(int num) {
