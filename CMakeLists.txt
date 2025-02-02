@@ -35,5 +35,4 @@ add_executable(Aufgaben
         2/14_ggt.c
 
 
-        game_of_live.c
 )

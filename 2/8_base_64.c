@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 
-void base64_encode(const unsigned char *str, int input_length, unsigned char *output);
+void base64_encode(const unsigned char *str, int input_length, unsigned char* output);
 
 int get_base64_length(int input_length);
 
