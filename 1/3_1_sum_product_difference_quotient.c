@@ -14,7 +14,7 @@ double getQuotient(double num1, double num2);
 
 int getMod(int num1, int num2);
 
-int main_3_1() {
+int main_1_3_1() {
     double num1, num2;
     num1 = 0;
     num2 = 0;

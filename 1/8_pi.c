@@ -5,7 +5,7 @@
 void print_pi(int precision);
 double pi(int precision);
 
-int main_8() {
+int main_1_8() {
     int calculation_depth = 1000;
     print_pi(calculation_depth);
 

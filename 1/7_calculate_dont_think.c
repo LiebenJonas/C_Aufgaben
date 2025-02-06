@@ -2,7 +2,7 @@
 //
 // Created by jonas on 19.12.2024.
 //
-int main_7() {
+int main_1_7() {
     int l_plus_x;
     int o_plus_x;
     int x_plus_l;

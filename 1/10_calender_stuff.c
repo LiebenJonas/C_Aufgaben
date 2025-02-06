@@ -6,7 +6,7 @@
 void print_year_and_weekday(int day, int mon, int year);
 int get_days_for_mon(int mon);
 
-int main_10() {
+int main_1_10() {
     print_year_and_weekday(31, 3, 1900);
 
     return 0;

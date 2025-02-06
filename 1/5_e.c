@@ -9,7 +9,7 @@ void print_e_for_specific_next_summand(double precision);
 
 double faculty(int num);
 
-int main_5() {
+int main_1_5() {
     int precision = 100;
     double next_summand_max_size = 0.00000001;
 

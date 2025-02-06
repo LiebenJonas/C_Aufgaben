@@ -20,7 +20,7 @@ unsigned char get_base64_index(unsigned char i);
 
 unsigned char BASE_64_CHARACTERS[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-int main() {
+int main_2_8() {
     //
     //
     //

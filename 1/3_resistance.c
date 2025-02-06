@@ -17,7 +17,7 @@ double getVoltageForSpecifiedCurrentAndResistance(double resistance, double curr
 
 double printVoltageForSpecifiedCurrentAndResistance(double resistance, double current);
 
-int main_3() {
+int main_1_3() {
     double length = 1;
     double diameter = 0.001;
     printf("Kupfer-");

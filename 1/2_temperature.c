@@ -7,7 +7,7 @@
 void printCelsiusToFarenheit(double c);
 double getFarenheitFromCelsius(double c);
 
-int main_2() {
+int main_1_2() {
     printCelsiusToFarenheit(10);
     return 0;
 }

@@ -5,7 +5,7 @@
 #include <stdio.h>
 void printMultiplicationTable();
 
-int main_9() {
+int main_1_9() {
     printMultiplicationTable();
 
     return 0;
