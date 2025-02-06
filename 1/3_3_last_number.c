@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 
-int main_3_3() {
+int main_1_3_3() {
     int i = 0;
     printf("Zahl angeben: ");
     scanf("%d", &i);

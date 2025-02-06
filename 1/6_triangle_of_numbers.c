@@ -4,7 +4,7 @@
 //
 void print_triangle_of_numbers(short max_num);
 
-int main_6() {
+int main_1_6() {
     print_triangle_of_numbers(5);
 }
 

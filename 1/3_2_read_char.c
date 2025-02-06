@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 
-int main_3_2() {
+int main_1_3_2() {
     char c;
     printf("Zu konvertierenden Char angeben: ");
     scanf("%c", &c);

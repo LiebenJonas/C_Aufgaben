@@ -20,7 +20,7 @@ void print_inverted_from_decimal_to_given(int num, int target_system);
 
 char get_char_from_num(int num);
 
-int main_4() {
+int main_1_4() {
     int i = 703710;
 
     print_binary_inverted(i);

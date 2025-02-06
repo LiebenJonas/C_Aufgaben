@@ -6,7 +6,7 @@
 
 void find_pythagoras_triplet();
 
-int main_11() {
+int main_1_11() {
     find_pythagoras_triplet(1000);
     return 0;
 }
