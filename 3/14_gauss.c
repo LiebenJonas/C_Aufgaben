@@ -4,42 +4,56 @@
 
 #include <stdio.h>
 
-int is_empty_row(double *row, int cols);
+int is_empty_row(double* row, int cols);
 
-void gauss(double *arr, int rows, int cols, int *x_indexes);
+void gauss(double* arr, int rows, int cols, int* x_indexes);
 
-void solve_gauss_matrix(double *arr, int rows, int cols, int *x_indexes);
+void solve_gauss_matrix(double* arr, int rows, int cols, int* x_indexes);
 
-void add_rows(double *row, double *row_to_add, int len, double factor);
+void add_rows(double* row, double* row_to_add, int len, double factor);
 
-void swap_rows(double *row, double *row2, int len);
+void swap_rows(double* row, double* row2, int len);
 
-void swap_cols(double *arr, int rows, int cols, int col1, int col2, int *x_indexes);
+void swap_cols(double* arr, int rows, int cols, int col1, int col2, int* x_indexes);
 
-void print_matr(double *mat1, int rowcount, int colcount, int *x_indexes);
+void print_matr(double* mat1, int rowcount, int colcount, int* x_indexes);
 
 int main() {
-    double arr[4][5] = {{0., 2., 3., 4., 1.}, {5., 6., 7., 8., 2.}, {9., 10., 11., 12., 3.}, {13., 14., 15., 16., 4.}};
-    int x_indexes[4] = {1, 2, 3, 4};
+    double array_solvable[3][4] = {{1, 2, 3, 0}, {2, 2, 3, 0}, {5, 5, 9, 0}};
+    int x_indexes_solvable[3] = {1, 2, 3};
+    gauss(array_solvable, 3, 4, x_indexes_solvable);
 
-    // print_matr(arr, 4, 5, x_indexes);
-    // swap_cols(arr, 4, 5, 0, 1, x_indexes);
-    // print_matr(arr, 4, 5, x_indexes);
+    printf("\n\n\n\n");
+
+    double arr_solvable_infinite_results[4][5] = {
+        {0., 2., 3., 4., 1.}, {5., 6., 7., 8., 2.}, {9., 10., 11., 12., 3.}, {13., 14., 15., 16., 4.}
+    };
+    int x_indexes_solvable_infinite_results[4] = {1, 2, 3, 4};
+    gauss(arr_solvable_infinite_results, 4, 5, x_indexes_solvable_infinite_results);
+
+    printf("\n\n\n\n");
+
+    double array_unsolvable[3][4] = {{1, 2, 3, 0}, {2, 2, 3, 0}, {0, 0, 0, 5}};
+    int x_indexes_unsolvable[3] = {1, 2, 3};
+    gauss(array_unsolvable, 3, 4, x_indexes_unsolvable);
 
 
-    gauss(arr, 4, 5, x_indexes);
     return 0;
 }
 
-int is_empty_row(double *row, int cols) {
+int is_empty_row(double* row, int cols) {
     for (int col = 0; col < cols; col++) {
         if (*(row + col))return 0;
     }
     return 1;
 }
 
+int is_invalid_row(double* row, int cols) {
+    return is_empty_row(row, cols - 1) && *(row + cols - 1) != 0;
+}
 
-void gauss(double *arr, int rows, int cols, int *x_indexes) {
+
+void gauss(double* arr, int rows, int cols, int* x_indexes) {
     for (int row = 0; row < rows; row++) {
         int col = row;
 
@@ -105,43 +119,62 @@ void gauss(double *arr, int rows, int cols, int *x_indexes) {
         if (*(arr + row * cols + col) == 0) {
             continue;
         }
-
         double factor = *(arr + row * cols + col);
-        for(int c = 0; c < cols; c++) {
+        for (int c = 0; c < cols; c++) {
             *(arr + row * cols + c) /= factor;
         }
     }
 
-    printf("Endergebnis der Matrix:\n");
-    print_matr(arr, rows, cols, x_indexes);
-
     solve_gauss_matrix(arr, rows, cols, x_indexes);
 }
 
-void solve_gauss_matrix(double *arr, int rows, int cols, int *x_indexes) {
+void solve_gauss_matrix(double* arr, int rows, int cols, int* x_indexes) {
     //Pro 0-Zeile gibt es einen Freiheitsgrad -> letzten [Anzahl 0-Zeilen] x haben einen Lambda-Wert
+
+    for (int row = rows - 1; row >= 0; row--) {
+        if (is_invalid_row((arr + row * cols), cols)) {
+            printf("Matrix nicht loesbar (0-Zeile mit Ergebnis)");
+            return;
+        }
+    }
 
     printf("Loesung:\n");
 
     int empty_row_count = 0;
+
+    // Definition der Freiheitsgrade
     for (int row = rows - 1; row >= 0; row--) {
         if (is_empty_row((arr + row * cols), cols)) {
             printf("X%d = Z%d\n", *(x_indexes + row), empty_row_count);
             empty_row_count++;
-        } else {
-            //TODO: printf("X%d = Z%d\n", *(x_indexes + row), empty_row_count);
+        }
+        else {
+            // Reihe ist nicht leer. Vorgehen:
+            // 1. Alle bis zu den Freiheitsgraden addieren, *-1 und ausgeben
+            // 2. Werte der Freiheitsgrade negieren und ausgeben
+            double val = 0;
+            for (int col = row + 1; col < cols - empty_row_count; col++) {
+                val += *(arr + row * cols + col);
+            }
+            printf("X%d = %.2lf", *(x_indexes + row), *(arr + row * cols + cols - 1) + -1 * val);
+            for (int col = cols - empty_row_count - 1; col < cols - 1; col++) {
+                val = *(arr + row * cols + col);
+                if (val == 0) continue;
+                printf(" + (%.2lf * Z%d)", -1 * val, cols - 2 - col);
+            }
+            printf("\n");
         }
     }
 }
 
 
-void add_rows(double *row, double *row_to_add, int len, double factor) {
+void add_rows(double* row, double* row_to_add, int len, double factor) {
     for (int i = 0; i < len; i++) {
         *(row + i) += factor * *(row_to_add + i);
     }
 }
 
-void swap_rows(double *row, double *row2, int len) {
+void swap_rows(double* row, double* row2, int len) {
     double swap;
     for (int i = 0; i < len; i++) {
         swap = *(row + i);
@@ -150,7 +183,7 @@ void swap_rows(double *row, double *row2, int len) {
     }
 }
 
-void swap_cols(double *arr, int rows, int cols, int col1, int col2, int *x_indexes) {
+void swap_cols(double* arr, int rows, int cols, int col1, int col2, int* x_indexes) {
     // Spalten tauschen
     // 1. Spalten der Matrix tauschen
     double sav;
@@ -171,7 +204,7 @@ void swap_cols(double *arr, int rows, int cols, int col1, int col2, int *x_index
     *(x_indexes + col2) = save;
 }
 
-void print_matr(double *mat1, int rowcount, int colcount, int *x_indexes) {
+void print_matr(double* mat1, int rowcount, int colcount, int* x_indexes) {
     for (int row = 0; row < rowcount; row++) {
         printf("(\t");
         for (int col = 0; col < colcount - 1; col++) {
