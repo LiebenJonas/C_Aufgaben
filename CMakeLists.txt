@@ -33,6 +33,7 @@ add_executable(Aufgaben
         2/12_fibonacci.c
         2/13_number_pyramid.c
         2/14_ggt.c
+
         3/1_swap.c
         3/2_matricies.c
         3/3_print_matrix.c
@@ -47,11 +48,14 @@ add_executable(Aufgaben
         3/12_remove_doublets.c
         3/13_bubble_sort.c
         3/14_gauss.c
+
         4/1-9_person.c
         4/10-11_linked_list.c
+        4/12_dynamic_allocation.c
         4/13_function_pointers.c
         4/14_binary_tree.c
-        4/12_dynamic_allocation.c
+
+        4_extra/1_shipping_costs.c
 
 
 )

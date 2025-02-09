@@ -5,7 +5,7 @@
 //
 int* get_array(int size);
 
-int main() {
+int main_4_12() {
     int size = 15;
     int* arr = get_array(size);
 
