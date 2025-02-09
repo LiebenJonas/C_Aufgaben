@@ -4,19 +4,21 @@
 
 #include <stdio.h>
 
-int is_empty_row(double *row, int cols);
+const double double_inaccuracy = 0.00000000000001;
 
-void gauss(double *arr, int rows, int cols, int *x_indexes);
+int is_empty_row(double* row, int cols);
 
-void solve_gauss_matrix(double *arr, int rows, int cols, int *x_indexes);
+void gauss(double* arr, int rows, int cols, int* x_indexes);
 
-void add_rows(double *row, double *row_to_add, int len, double factor);
+void solve_gauss_matrix(double* arr, int rows, int cols, int* x_indexes);
 
-void swap_rows(double *row, double *row2, int len);
+void add_rows(double* row, double* row_to_add, int len, double factor);
 
-void swap_cols(double *arr, int rows, int cols, int col1, int col2, int *x_indexes);
+void swap_rows(double* row, double* row2, int len);
 
-void print_matr(double *mat1, int rowcount, int colcount, int *x_indexes);
+void swap_cols(double* arr, int rows, int cols, int col1, int col2, int* x_indexes);
+
+void print_matr(double* mat1, int rowcount, int colcount, int* x_indexes);
 
 int main() {
     printf("Loesbar:\n");
@@ -50,19 +52,19 @@ int main() {
     return 0;
 }
 
-int is_empty_row(double *row, int cols) {
+int is_empty_row(double* row, int cols) {
     for (int col = 0; col < cols; col++) {
         if (*(row + col))return 0;
     }
     return 1;
 }
 
-int is_invalid_row(double *row, int cols) {
+int is_invalid_row(double* row, int cols) {
     return is_empty_row(row, cols - 1) && *(row + cols - 1) != 0;
 }
 
 
-void gauss(double *arr, int rows, int cols, int *x_indexes) {
+void gauss(double* arr, int rows, int cols, int* x_indexes) {
     for (int row = 0; row < rows; row++) {
         int col = row;
 
@@ -133,7 +135,7 @@ void gauss(double *arr, int rows, int cols, int *x_indexes) {
     solve_gauss_matrix(arr, rows, cols, x_indexes);
 }
 
-void solve_gauss_matrix(double *arr, int rows, int cols, int *x_indexes) {
+void solve_gauss_matrix(double* arr, int rows, int cols, int* x_indexes) {
     //Pro 0-Zeile gibt es einen Freiheitsgrad -> letzten [Anzahl 0-Zeilen] x haben einen Lambda-Wert
 
     for (int row = rows - 1; row >= 0; row--) {
@@ -152,7 +154,9 @@ void solve_gauss_matrix(double *arr, int rows, int cols, int *x_indexes) {
         if (is_empty_row((arr + row * cols), cols)) {
             printf("X%d = Z%d\n", *(x_indexes + row), empty_row_count);
             empty_row_count++;
-        } else {
+        }
+        else {
+            int solved = 0;
             // Reihe ist nicht leer. Vorgehen:
             // 1. Alle bis zu den Freiheitsgraden addieren, *-1 und ausgeben
             // 2. Werte der Freiheitsgrade negieren und ausgeben
@@ -161,26 +165,31 @@ void solve_gauss_matrix(double *arr, int rows, int cols, int *x_indexes) {
             for (int col = row + 1; col < cols - empty_row_count - 1; col++) {
                 val += *(arr + row * cols + col);
             }
-            if (val != 0)
+            if (val > double_inaccuracy || val < -double_inaccuracy) {
                 printf("%.2lf", *(arr + row * cols + cols - 1) + -1 * val);
+                solved = 1;
+            }
             for (int col = cols - empty_row_count - 1; col < cols - 1; col++) {
                 val = *(arr + row * cols + col);
-                if (val == 0) continue;
-                printf(" + (%.2lf * Z%d)", -1 * val, cols - 2 - col);
+                if (val < double_inaccuracy && val > -double_inaccuracy) continue;
+                if (solved)printf(" + ");
+                printf("(%.2lf * Z%d)", -1 * val, cols - 2 - col);
+                solved = 1;
             }
+            if (!solved)printf(" 0");
             printf("\n");
         }
     }
 }
 
 
-void add_rows(double *row, double *row_to_add, int len, double factor) {
+void add_rows(double* row, double* row_to_add, int len, double factor) {
     for (int i = 0; i < len; i++) {
         *(row + i) += factor * *(row_to_add + i);
     }
 }
 
-void swap_rows(double *row, double *row2, int len) {
+void swap_rows(double* row, double* row2, int len) {
     double swap;
     for (int i = 0; i < len; i++) {
         swap = *(row + i);
@@ -189,7 +198,7 @@ void swap_rows(double *row, double *row2, int len) {
     }
 }
 
-void swap_cols(double *arr, int rows, int cols, int col1, int col2, int *x_indexes) {
+void swap_cols(double* arr, int rows, int cols, int col1, int col2, int* x_indexes) {
     // Spalten tauschen
     // 1. Spalten der Matrix tauschen
     double sav;
@@ -210,18 +219,16 @@ void swap_cols(double *arr, int rows, int cols, int col1, int col2, int *x_index
     *(x_indexes + col2) = save;
 }
 
-void print_matr(double *mat1, int rowcount, int colcount, int *x_indexes) {
+void print_matr(double* mat1, int rowcount, int colcount, int* x_indexes) {
     for (int row = 0; row < rowcount; row++) {
         printf("(\t");
         for (int col = 0; col < colcount - 1; col++) {
             printf("%.2lf\t", *(mat1 + row * colcount + col));
         }
         printf("\t)\t(x%d)", *(x_indexes + row));
-
         if (row == rowcount / 2)printf("\t=\t");
         else printf("\t\t");
-
-        printf("(%lf)\n", *(mat1 + row * colcount + colcount - 1));
+        printf("(%.2lf)\n", *(mat1 + row * colcount + colcount - 1));
     }
     printf("\n");
     fflush(stdout);
