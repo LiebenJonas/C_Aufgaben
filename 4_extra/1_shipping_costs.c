@@ -125,7 +125,7 @@ const Item valid_items[] = {
 };
 
 
-int main() {
+int main_4extra_1() {
     Order_Node *order = create_node(valid_items[1], 5, NULL);
     add_item(order, valid_items[1], 5); // -> 10x O1
     add_item(order, valid_items[1], 2); // -> 12x O1
