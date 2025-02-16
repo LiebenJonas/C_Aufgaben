@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 void base64_encode(const unsigned char *str, int input_length, unsigned char* output);
 
 int get_base64_length(int input_length);
@@ -98,12 +97,10 @@ void base64_encode(const unsigned char *str, const int input_length, unsigned ch
             // Rechtsbündige 4 Bit und folgende 2 Bit
             case 1:
                 // 1. Rechtsbündige 2 Byte und folgende 4 Bit
-                //printf("%c\n", get_base64_char(0b00110000 & (str[byte - 1] << 4) | 0b00001111 & (str[byte] >> 4)));
                 output[ret_index] = get_base64_char(0b00110000 & (str[byte - 1] << 4) | 0b00001111 & (str[byte] >> 4));
                 ret_index++;
 
             // 2. Rechtsbündige 4 Byte und folgende 2 Bit
-            //printf("%c\n", get_base64_char(0b00111100 & (str[byte] << 2) | 0b00000011 & (str[byte + 1] >> 6)));
                 output[ret_index] = get_base64_char(0b00111100 & (str[byte] << 2) | 0b00000011 & (str[byte + 1] >> 6));
                 ret_index++;
                 break;

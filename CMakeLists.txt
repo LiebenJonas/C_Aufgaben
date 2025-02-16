@@ -54,8 +54,9 @@ add_executable(Aufgaben
         4/12_dynamic_allocation.c
         4/13_function_pointers.c
         4/14_binary_tree.c
-
-        4_extra/1_shipping_costs.c
+        4/12_dynamic_allocation.c
+        4/15_hash_table.cpp
+        project/project.c
 
 
 )

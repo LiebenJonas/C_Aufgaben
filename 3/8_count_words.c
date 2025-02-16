@@ -4,7 +4,7 @@
 //
 int count_words(char* input, int len);
 
-const char SPACE = ' ';
+const char SPACE_CHARACTER = ' ';
 
 int main_3_8() {
     char c[] = "Dennis sollte gehauen werden!";
@@ -16,12 +16,12 @@ int main_3_8() {
 
 int count_words(char* input, int len) {
     int words = 0;
-    char last = SPACE;
+    char last = SPACE_CHARACTER;
     for (int i = 0; i < len; i++) {
-        if (words == 0 && *(input + i) != SPACE) {
+        if (words == 0 && *(input + i) != SPACE_CHARACTER) {
             words++;
         }
-        else if (last != SPACE && *(input + i) == SPACE) {
+        else if (last != SPACE_CHARACTER && *(input + i) == SPACE_CHARACTER) {
             words++;
         }
         last = *(input + i);

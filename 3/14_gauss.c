@@ -20,9 +20,9 @@ void swap_cols(double* arr, int rows, int cols, int col1, int col2, int* x_index
 
 void print_matr(double* mat1, int rowcount, int colcount, int* x_indexes);
 
-int main() {
+int main_3_14() {
     printf("Loesbar:\n");
-    double array_solvable[3][4] = {{1, 2, 3, 0}, {2, 2, 3, 0}, {5, 5, 9, 0}};
+    double array_solvable[3][4] = {{1, 2, 3, 4}, {2, 2, 3, 2}, {5, 5, 9, 0}};
     int x_indexes_solvable[3] = {1, 2, 3};
     print_matr(array_solvable, 3, 4, x_indexes_solvable);
     gauss(array_solvable, 3, 4, x_indexes_solvable);
@@ -108,6 +108,11 @@ void gauss(double* arr, int rows, int cols, int* x_indexes) {
         }
     }
 
+
+    printf("Nach Erzeugen 0en ueber HD\n");
+    print_matr(arr, rows, cols, x_indexes);
+
+
     //0en überhalb der Hauptdiagonalen erzeugen
     for (int row = rows - 1; row >= 0; row--) {
         int col = row;
@@ -120,6 +125,9 @@ void gauss(double* arr, int rows, int cols, int* x_indexes) {
         }
     }
 
+    printf("Nach Erzeugen 0en unter HD\n");
+    print_matr(arr, rows, cols, x_indexes);
+
     // Alle Werte der HD auf 1 setzen:
     for (int row = 0; row < rows; row++) {
         int col = row;
@@ -131,6 +139,10 @@ void gauss(double* arr, int rows, int cols, int* x_indexes) {
             *(arr + row * cols + c) /= factor;
         }
     }
+
+
+    printf("Nach Faktorisierung HD auf 1\n");
+    print_matr(arr, rows, cols, x_indexes);
 
     solve_gauss_matrix(arr, rows, cols, x_indexes);
 }
@@ -146,7 +158,6 @@ void solve_gauss_matrix(double* arr, int rows, int cols, int* x_indexes) {
     }
 
     printf("Loesung:\n");
-
     int empty_row_count = 0;
 
     // Definition der Freiheitsgrade
@@ -165,8 +176,9 @@ void solve_gauss_matrix(double* arr, int rows, int cols, int* x_indexes) {
             for (int col = row + 1; col < cols - empty_row_count - 1; col++) {
                 val += *(arr + row * cols + col);
             }
+            val = *(arr + row * cols + cols - 1) + -1 * val;
             if (val > double_inaccuracy || val < -double_inaccuracy) {
-                printf("%.2lf", *(arr + row * cols + cols - 1) + -1 * val);
+                printf("%.2lf", val);
                 solved = 1;
             }
             for (int col = cols - empty_row_count - 1; col < cols - 1; col++) {
